@@ -20,7 +20,7 @@ const appDesc = ref(import.meta.env.VITE_APP_DESC || '')
           rel="noopener noreferrer"
           class="text-blue-600 hover:underline dark:text-blue-400"
         >
-          Your ICP Number
+          苏ICP备16049927号-2
         </a>
       </p>
     </div>
