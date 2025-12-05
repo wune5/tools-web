@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'  # 启用 pnpm 缓存加速安装
+          cache: 'pnpm'  # 启用 pnpm 缓存
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -36,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: static-files
-          path: build/  # 👈 请根据你的实际输出目录修改！常见如：dist/, build/, out/, public/
+          path: dist/  # 👈 请根据实际输出目录调整！
