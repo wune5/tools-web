@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && node --max_old_space_size=8192 node_modules/vite/bin/vite.js build --mode development",
-    "build:pro": "vue-tsc --noEmit && node --max_old_space_size=8192 node_modules/vite/bin/vite.js build --mode production",
+    "build:pro": "PUPPETEER_ARGS=\"--no-sandbox --disable-setuid-sandbox\" vite build",
     "preview": "vite preview"
   },
   "dependencies": {
