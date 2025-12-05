@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import { vitePluginScreenshot } from 'vite-plugin-screenshot';
 import path from 'path'
 import {seoperender} from "./ssr.config";
 
@@ -19,13 +18,6 @@ export default defineConfig(({command, mode}) => {
         iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
         // Specify symbolId format
         symbolId: 'icon-[dir]-[name]',
-      }),
-      vitePluginScreenshot({
-        // 添加这整个配置块，如果已有其他配置，就合并进去
-        launchOptions: {
-          args: ['--no-sandbox', '--disable-setuid-sandbox'],
-          headless: 'new' // 确保使用新的Headless模式，更稳定
-        }
       }),
       seoperender()
     ],
