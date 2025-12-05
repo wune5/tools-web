@@ -10,20 +10,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-          # 👇 关键！告诉 setup-node 使用 pnpm，它会自动安装 pnpm
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '20.x'
+          cache: 'pnpm'        # 启用 pnpm 缓存
+          cache-dependency-path: 'pnpm-lock.yaml'  # 明确指定 lock 文件
 
       - name: Install dependencies
         run: pnpm install
@@ -35,4 +30,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: static-files
-          path: dist/  # 👈 请根据实际输出目录调整！
+          path: dist/   # 👈 请再次确认你的构建输出目录是否为 dist/
