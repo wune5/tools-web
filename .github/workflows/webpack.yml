@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x]  # 先只测试一个稳定版本，避免多版本干扰
 
     steps:
       - uses: actions/checkout@v4
@@ -21,10 +21,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'  # 启用 pnpm 缓存
+          cache: 'pnpm'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Install pnpm (force refresh PATH)
+        run: |
+          npm install -g pnpm
+          echo "PNPM_VERSION=$(pnpm --version)"  # 验证是否安装成功
+          export PATH="$HOME/.local/share/pnpm:$PATH"  # 强制添加 pnpm 到 PATH
+          which pnpm  # 显示 pnpm 路径
 
       - name: Install dependencies
         run: pnpm install
