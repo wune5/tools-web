@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]  # 先只测试一个稳定版本，避免多版本干扰
+        node-version: [20.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -22,13 +22,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-
-      - name: Install pnpm (force refresh PATH)
-        run: |
-          npm install -g pnpm
-          echo "PNPM_VERSION=$(pnpm --version)"  # 验证是否安装成功
-          export PATH="$HOME/.local/share/pnpm:$PATH"  # 强制添加 pnpm 到 PATH
-          which pnpm  # 显示 pnpm 路径
+          # 👇 关键！告诉 setup-node 使用 pnpm，它会自动安装 pnpm
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: pnpm install
