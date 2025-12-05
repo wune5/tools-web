@@ -11,33 +11,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 步骤一：检出代码
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # 步骤二：设置 Node.js 环境
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18' # 建议与你的开发环境保持一致
-
-      # 步骤三：安装 pnpm
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8 # 指定 pnpm 版本
-
-      # 步骤四：安装依赖（使用 pnpm）
-      - name: Install dependencies
-        run: pnpm install
-
-      # 步骤五：执行你的生产环境构建命令
-      - name: Build for production
-        run: pnpm run build:pro # 确保此命令在你的 package.json 中已定义
-
-      # 步骤六：上传构建产物作为工作流制品（供下载）
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: production-build-output # 制品名称
-          path: ./dist # 需要上传的目录，请根据你的实际构建输出目录修改（如 ./build, ./out）
+    # 步骤一：检出代码
+    - name: Checkout code
+      uses: actions/checkout@v4
+  
+    # 步骤二：设置 Node.js 环境
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+  
+    # 步骤三：安装 pnpm
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+  
+    # 步骤四：安装依赖
+    - name: Install dependencies
+      run: pnpm install
+  
+    # 步骤五：执行生产环境构建
+    - name: Build for production
+      run: pnpm run build:pro
+  
+    # 步骤六：上传构建产物 (关键修改)
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: production-build-output
+        path: ./dist # 请根据你的实际构建输出目录修改
