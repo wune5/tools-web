@@ -1,38 +1,43 @@
-name: Build and Upload Static Files
+name: Build and Release Artifact
 
 on:
+  # 1. 设置触发器：在推送到main分支时自动运行
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches: [ master ]
+  # 2. 同时支持手动触发工作流，方便你在需要时随时生成
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      # 步骤一：检出代码
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
+      # 步骤二：设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
-          cache: 'pnpm'
-          cache-dependency-path: 'pnpm-lock.yaml'
+          node-version: '18' # 建议与你的开发环境保持一致
 
-      - name: Enable pnpm via corepack
-        run: |
-          corepack enable pnpm
-          pnpm --version  # 验证 pnpm 是否可用
+      # 步骤三：安装 pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8 # 指定 pnpm 版本
 
+      # 步骤四：安装依赖（使用 pnpm）
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build project (pnpm build:pro)
-        run: pnpm build:pro
+      # 步骤五：执行你的生产环境构建命令
+      - name: Build for production
+        run: pnpm run build:pro # 确保此命令在你的 package.json 中已定义
 
-      - name: Upload static files as artifact
-        uses: actions/upload-artifact@v4
+      # 步骤六：上传构建产物作为工作流制品（供下载）
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: static-files
-          path: dist/   # 👈 请根据实际输出目录调整！
+          name: production-build-output # 制品名称
+          path: ./dist # 需要上传的目录，请根据你的实际构建输出目录修改（如 ./build, ./out）
