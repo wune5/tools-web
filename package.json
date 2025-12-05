@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && node --max_old_space_size=8192 node_modules/vite/bin/vite.js build --mode development",
+    "build": "vite build",
     "build:pro": "PUPPETEER_ARGS=\"--no-sandbox --disable-setuid-sandbox\" vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --port 4173"
   },
   "dependencies": {
     "@codemirror/commands": "^6.3.2",
